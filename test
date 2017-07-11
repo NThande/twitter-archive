@@ -1,5 +1,0 @@
-from sqlite3 import Error
-from sqlite3 import connect
-
-db_file = "sharkweek.db"
-conn = connect(db_file)
