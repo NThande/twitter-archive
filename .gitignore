@@ -1,0 +1,28 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Vim template
+# swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+# Temporary files
+*.db
+*.json
+test
+*.xml
