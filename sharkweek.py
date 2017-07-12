@@ -29,23 +29,37 @@ key = creds['Consumer Key']
 secret = creds['Consumer Secret']
 
 results = get_tweets(key, secret)
-
+r = results.json()
 # Print tweets for viewing
-print(type(results.json()))
-for item in results.get_iterator():
-    print(item) #['user']['screen_name'], item['text'], item['id'])
+# print(type(r))
+# print(type((r,)))
+# for item in results.get_iterator():
+#     print(item['user']['screen_name'], item['text'], item['id'])
 
 with open('tweets.json', 'w') as outfile:
-    json.dump(results.json(), outfile)
-# Connect to db
-# my_db = "sharkweek.db"
-# conn = create_connection(my_db)
-# try:
-#     c = conn.cursor()
-#     c.execute("INSERT INTO {tn} ({idf}, {cn}) VALUES (123456, 'test')")
-# except sqlite3.Error as e:
-#     print(e)
-# finally:
-#     conn.close()
+      json.dump(r, outfile)
+
+# print(results.json())
+print(r.keys())
+rStat = r['statuses']
+rMeta = r['search_metadata']
+print("Statuses are of type:", type(rStat))
+print("Entries in Status:", rStat[0:-1])
+print("Entries are of type:", type(rStat[-1]))
+print("Metadata is type:", type(rMeta))
+print("Keys in Metadata:", rMeta.keys())
+
+#Connect to db
+my_db = "sharkweek.db"
+conn = create_connection(my_db)
+
+try:
+    c = conn.cursor()
+    c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
+except sqlite3.Error as e:
+    print(e)
+finally:
+    conn.commit()
+    conn.close()
 
 

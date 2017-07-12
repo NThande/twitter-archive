@@ -17,12 +17,13 @@ def create_table(conn, table):
     except Error as e:
         print(e)
     finally:
+        conn.commit()
         conn.close()
 sql_create_twitter_table = '''CREATE TABLE IF NOT EXISTS twitter (
                               id integer PRIMARY KEY,
                               user text,
                               screen_name text,
-                              text text);
+                              text BLOB);
                            '''
 my_db = "sharkweek.db"
 conn = create_connection(my_db)
