@@ -39,27 +39,29 @@ r = results.json()
 with open('tweets.json', 'w') as outfile:
       json.dump(r, outfile)
 
+# Print types and data entries to find fields for SQLite
 # print(results.json())
 print(r.keys())
 rStat = r['statuses']
 rMeta = r['search_metadata']
+rEnt = rStat[-1]
 print("Statuses are of type:", type(rStat))
 print("Entries in Status:", rStat[0:-1])
 print("Entries are of type:", type(rStat[-1]))
-print("Metadata is type:", type(rMeta))
-print("Keys in Metadata:", rMeta.keys())
+print("Tags in Entries:", rEnt.keys())
+print("Tags are of type:", type(rEnt['user']))
+# print("Metadata is type:", type(rMeta))
+# print("Keys in Metadata:", rMeta.keys())
 
 #Connect to db
-my_db = "sharkweek.db"
-conn = create_connection(my_db)
-
-try:
-    c = conn.cursor()
-    c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
-except sqlite3.Error as e:
-    print(e)
-finally:
-    conn.commit()
-    conn.close()
-
-
+# my_db = "sharkweek.db"
+# conn = create_connection(my_db)
+#
+# try:
+#     c = conn.cursor()
+#     c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
+# except sqlite3.Error as e:
+#     print(e)
+# finally:
+#     conn.commit()
+#     conn.close()
