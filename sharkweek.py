@@ -2,19 +2,18 @@ import json
 import sqlite3
 from TwitterAPI import TwitterAPI
 
-# Function opens config.json containing Twitter oAuth keys and returns list with oAuth keys as strings.
-def get_creds():
-    with open('config.json') as json_data_file:
-        data = json.load(json_data_file)
-    return data
+# Takes in oAuth keys from config.json and returns n tweets containing hash as an API response.
+def get_tweets(hash, n):
 
-# Takes in oAuth keys and returns tweets containing #sharkweek as .json.
-def get_tweets(hash, count):
-    creds = get_creds()
+    # Retrieve keys from config file
+    with open('config.json') as json_data_file:
+        creds = json.load(json_data_file)
     key = creds['Consumer Key']
     secret = creds['Consumer Secret']
+
+    # Get tweets from Twitter
     api = TwitterAPI(key, secret, auth_type='oAuth2')
-    r = api.request('search/tweets', {'q': hash, 'count': count})
+    r = api.request('search/tweets', {'q': hash, 'count': n})
     return r
 
 # Connects to db_file and returns connected variable.
@@ -22,10 +21,11 @@ def create_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
         return conn
-    except Error as e:
+    except sqlite3.Error as e:
         print(e)
     return None
 
+# Creates cursor object from connection object.
 def create_cursor(connect):
     try:
         c = connect.cursor()
@@ -34,14 +34,35 @@ def create_cursor(connect):
         print(e)
     return None
 
-#def auth():
+# Closes the connection object.
+def close_conn(connect):
+    connect.commit()
+    connect.close()
+    return None
 
-# Authenticate to Twitter
-results = get_tweets('#sharkweek', 100)
+def update_database(response, meta, connect, table):
+    for tweet in response.get_iterator():
 
-# r = results.json()
-# print(type(r))
-# print(type((r,)))
+def fill_database(connect, table, count):
+    # Create the placeholders for each column
+    if count <= 0:
+        return None
+    col_string = ""
+    if count < 1:
+        for i in range(count - 1):
+            col_string+= "?,"
+    col_string += "?"
+
+    # Add metadata to db
+    try:
+        c.execute("INSERT into {} VALUES({})".format(table, col_string),
+                  [id, user, screen_name, text])
+    except sqlite3.Error as e:
+        print(e)
+
+# Get tweets
+count = 10;
+results = get_tweets('#sharkweek', count)
 
 # Connect to db
 my_db = "sharkweek.db"
@@ -51,34 +72,20 @@ c = create_cursor(conn)
 # Retrieve metadata for each tweet and add to db
 for item in results.get_iterator():
     print(item['user']['screen_name'], item['text'], item['id'])
-    # id = item['id']
-    # user = item['user']['name']
-    # screen_name = item['user']['screen_name']
-    # text = item['text']
-    # id_str = item['id_str']
-    # retweeted = item['retweeted']
-    # retweet_count = item['retweet_count']
-    # favorited = item['favorited']
-    # favorite_count = item['favorite_count']
-    # if 'possibly_sensitive' in item:
-    #     possibly_sensitive = item['possibly_sensitive']
-    # else:
-    #     possibly_sensitive = ''
-    # lang = item['lang']
-    # source = item['source']
-    # created_at = item['created_at']
-    #
-    # # Add metadata to db
-    # try:
-    #     c.execute("INSERT into twitter VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
-    #               [id, user, screen_name, text, id_str, retweeted, retweet_count, favorited,
-    #                favorite_count, possibly_sensitive, lang, source, created_at])
-    # except sqlite3.Error as e:
-    #     print(e)
+    id = item['id']
+    user = item['user']['name']
+    screen_name = item['user']['screen_name']
+    text = item['text']
 
-# Savve the changes
-conn.commit()
-conn.close()
+    # Add metadata to db
+    try:
+        c.execute("INSERT into twitter VALUES(?,?,?,?)",
+                  ([id, user, screen_name, text]))
+    except sqlite3.Error as e:
+        print(e)
+
+# Save the changes
+close_conn(conn)
 
 # Connect to db
 # my_db = "sharkweek.db"
@@ -95,10 +102,14 @@ conn.close()
 
 #c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
 
+# Dump tweets to .json file
+# r = results.json()
+# print(type(r))
+# print(type((r,)))
 # with open('tweets.json', 'w') as outfile:
 #       json.dump(r, outfile)
 
-# Print types and data entries to find fields for SQLite
+# Print types and data entries to find fields for SQLite debugging
 # print(results.json())
 # print(r.keys())
 # rLay1 = r['statuses']
