@@ -19,6 +19,7 @@ def create_table(conn, table):
     finally:
         conn.commit()
         conn.close()
+
 sql_create_twitter_table = '''CREATE TABLE IF NOT EXISTS twitter (
                               id integer PRIMARY KEY,
                               user text,

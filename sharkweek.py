@@ -1,5 +1,6 @@
 import json
 import sqlite3
+import variables
 from TwitterAPI import TwitterAPI
 
 # Takes in oAuth keys from config.json and returns n tweets containing hash as an API response.
@@ -40,10 +41,8 @@ def close_conn(connect):
     connect.close()
     return None
 
-def update_database(response, meta, connect, table):
-    for tweet in response.get_iterator():
+def update_database(response, meta, cursor, table, count):
 
-def fill_database(connect, table, count):
     # Create the placeholders for each column
     if count <= 0:
         return None
@@ -53,12 +52,21 @@ def fill_database(connect, table, count):
             col_string+= "?,"
     col_string += "?"
 
-    # Add metadata to db
-    try:
-        c.execute("INSERT into {} VALUES({})".format(table, col_string),
-                  [id, user, screen_name, text])
-    except sqlite3.Error as e:
-        print(e)
+    tweet_data = []
+    for tweet in response.get_iterator():
+        for i in range(count):
+            entry = meta[i]
+            if entry in tweet:
+                tweet_data.append(tweet[entry])
+            else:
+                 tweet_data.append('')
+        print(tweet_data[1])
+        # Add metadata to db
+        try:
+            cursor.execute("INSERT into {} VALUES({})".format(table, col_string),
+                           [*tweet_data])
+        except sqlite3.Error as e:
+            print(e)
 
 # Get tweets
 count = 10;
@@ -69,20 +77,21 @@ my_db = "sharkweek.db"
 conn = create_connection(my_db)
 c = create_cursor(conn)
 
-# Retrieve metadata for each tweet and add to db
-for item in results.get_iterator():
-    print(item['user']['screen_name'], item['text'], item['id'])
-    id = item['id']
-    user = item['user']['name']
-    screen_name = item['user']['screen_name']
-    text = item['text']
-
-    # Add metadata to db
-    try:
-        c.execute("INSERT into twitter VALUES(?,?,?,?)",
-                  ([id, user, screen_name, text]))
-    except sqlite3.Error as e:
-        print(e)
+update_database(results, variables.metaList, c, variables.table, variables.col_count)
+# # Retrieve metadata for each tweet and add to db
+# for item in results.get_iterator():
+#     print(item['user']['screen_name'], item['text'], item['id'])
+#     id = item['id']
+#     user = item['user']['name']
+#     screen_name = item['user']['screen_name']
+#     text = item['text']
+#
+#     # Add metadata to db
+#     try:
+#         c.execute("INSERT into twitter VALUES(?,?,?,?)",
+#                   ([id, user, screen_name, text]))
+#     except sqlite3.Error as e:
+#         print(e)
 
 # Save the changes
 close_conn(conn)
