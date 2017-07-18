@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 # File containing necessary variables for twitter script.
 # Hashtag/keywords in each tweet.
 hashtag = "#sharkweek"
@@ -5,20 +7,37 @@ hashtag = "#sharkweek"
 # Number of tweets for each search.
 tweet_count = 100;
 
-# Metadata to extract.
-metaList = ['id', 'name', 'screen_name', 'text']
+metaDict = {'id':'integer PRIMARY KEY', 'text':'text', 'retweeted': 'numeric'}
+metaList = list(metaDict.keys())
+print(metaList)
 
-# Data type for each piece of metadata.
-typeList = ['integer', 'text', 'text', 'text']
-
-# Dictionary combining the typeList and the metaList.
-metaDict = dict(zip(metaList, typeList))
+for item in metaDict:
+    print(item, metaDict[item])
 
 # Name of table to store tweets in.
 table = "twitter"
 
 # Number of columns in table.
 col_count = len(metaList)
+
+# # Metadata to extract.
+# metaList = ['id', 'name', 'screen_name', 'text']
+#
+# # Data type for each piece of metadata.
+# typeList = ['integer', 'text', 'text', 'text']
+#
+# # Dictionary combining the typeList and the metaList.
+# metaDict = dict(zip(metaList, typeList))
+
+# print(metaDict.items())
+# metaDict.pop('id')
+# print(metaDict.items())
+# metaDict.setdefault('id','name')
+# print(metaDict.items())
+# metaDict.pop('name')
+# print(metaDict.items())
+# metaDict.setdefault('name','text')
+# print(metaDict.items())
 
 # Name of table to store
 # for item in results.get_iterator():

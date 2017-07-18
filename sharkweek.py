@@ -27,18 +27,18 @@ def create_connection(db_file):
     return None
 
 # Creates cursor object from connection object.
-def create_cursor(connect):
+def create_cursor(conn):
     try:
-        c = connect.cursor()
+        c = conn.cursor()
         return c;
     except sqlite3.Error as e:
         print(e)
     return None
 
 # Closes the connection object.
-def close_conn(connect):
-    connect.commit()
-    connect.close()
+def close_conn(conn):
+    conn.commit()
+    conn.close()
     return None
 
 def update_database(response, meta, cursor, table, count):
@@ -49,7 +49,7 @@ def update_database(response, meta, cursor, table, count):
     col_string = ""
     if count > 1:
         for i in range(count - 1):
-            col_string+= "?,"
+            col_string += "?,"
     col_string += "?"
 
     # Extract metadata from tweets
@@ -71,7 +71,7 @@ def update_database(response, meta, cursor, table, count):
             print(e)
 
 # Get tweets
-count = 10;
+count = 15;
 results = get_tweets('#sharkweek', count)
 
 # Connect to db
@@ -79,7 +79,7 @@ my_db = "sharkweek.db"
 conn = create_connection(my_db)
 c = create_cursor(conn)
 
-# update_database(results, variables.metaList, c, variables.table, variables.col_count)
+update_database(results, variables.metaList, c, variables.table, variables.col_count)
 # # Retrieve metadata for each tweet and add to db
 # for item in results.get_iterator():
 #     print(item['user']['screen_name'], item['text'], item['id'])
@@ -113,30 +113,30 @@ close_conn(conn)
 
 #c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
 
-# Dump tweets to .json file
-r = results.json()
-print(type(r))
-print(type((r,)))
-with open('tweets.json', 'w') as outfile:
-      json.dump(r, outfile)
+# # Dump tweets to .json file
+# r = results.json()
+# print(type(r))
+# print(type((r,)))
+# with open('tweets.json', 'w') as outfile:
+#       json.dump(r, outfile)
 
-# Print types and data entries to find fields for SQLite debugging
-print(results.json())
-print(r.keys())
-rLay1 = r['statuses']
-rMeta = r['search_metadata']
-rLay2 = rLay1[-1]
-rLay3 = rLay2['user']
-rLay4 = rLay3['screen_name']
-print("Layer 1 is type:", type(rLay1))
-print("Layer 2 entries in Layer 1:", rLay1[0:-1])
-print("Layer 2 is type:", type(rLay2))
-print("Layer 3 entries in Layer 2:", rLay2.keys())
-print("Layer 3 is type:", type(rLay3))
-print("Layer 4 entries in Layer 3:", rLay3.keys())
-print("Layer 4 is type: ", type(rLay4))
-print("Layer 4 is the end layer")
-print("Metadata is type:", type(rMeta))
-print("Keys in Metadata:", rMeta.keys())
+# # Print types and data entries to find fields for SQLite debugging
+# print(results.json())
+# print(r.keys())
+# rLay1 = r['statuses']
+# rMeta = r['search_metadata']
+# rLay2 = rLay1[-1]
+# rLay3 = rLay2['user']
+# rLay4 = rLay3['screen_name']
+# print("Layer 1 is type:", type(rLay1))
+# print("Layer 2 entries in Layer 1:", rLay1[0:-1])
+# print("Layer 2 is type:", type(rLay2))
+# print("Layer 3 entries in Layer 2:", rLay2.keys())
+# print("Layer 3 is type:", type(rLay3))
+# print("Layer 4 entries in Layer 3:", rLay3.keys())
+# print("Layer 4 is type: ", type(rLay4))
+# print("Layer 4 is the end layer")
+# print("Metadata is type:", type(rMeta))
+# print("Keys in Metadata:", rMeta.keys())
 
 
