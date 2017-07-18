@@ -98,45 +98,6 @@ update_database(results, variables.metaList, c, variables.table, variables.col_c
 # Save the changes
 close_conn(conn)
 
-# Connect to db
-# my_db = "sharkweek.db"
-# conn = create_connection(my_db)
-#
-# try:
-#     c = conn.cursor()
-#     c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
-# except sqlite3.Error as e:
-#     print(e)
-# finally:
-#     conn.commit()
-#     conn.close()
 
-#c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
-
-# # Dump tweets to .json file
-# r = results.json()
-# print(type(r))
-# print(type((r,)))
-# with open('tweets.json', 'w') as outfile:
-#       json.dump(r, outfile)
-
-# # Print types and data entries to find fields for SQLite debugging
-# print(results.json())
-# print(r.keys())
-# rLay1 = r['statuses']
-# rMeta = r['search_metadata']
-# rLay2 = rLay1[-1]
-# rLay3 = rLay2['user']
-# rLay4 = rLay3['screen_name']
-# print("Layer 1 is type:", type(rLay1))
-# print("Layer 2 entries in Layer 1:", rLay1[0:-1])
-# print("Layer 2 is type:", type(rLay2))
-# print("Layer 3 entries in Layer 2:", rLay2.keys())
-# print("Layer 3 is type:", type(rLay3))
-# print("Layer 4 entries in Layer 3:", rLay3.keys())
-# print("Layer 4 is type: ", type(rLay4))
-# print("Layer 4 is the end layer")
-# print("Metadata is type:", type(rMeta))
-# print("Keys in Metadata:", rMeta.keys())
 
 

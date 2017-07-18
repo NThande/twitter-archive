@@ -63,34 +63,11 @@ def alter_table(conn, table_name, col_dict):
     # finally:
     #     close_connection(conn)
 
-# # Creates the SQlite query to create database table with name table_name and columns corresponding to col_dict.
-# def create_columns(table_name, col_dict):
-#     table_string = "CREATE TABLE IF NOT EXISTS {} (".format(table_name)
-#
-#     # Iterate through metaDict to construct query
-#     for item in col_dict:
-#         if (item != list(col_dict.keys())[-1]):
-#             table_string += "{} {}, ".format(item, col_dict[item])
-#         else:
-#             table_string += "{} {});".format(item, col_dict[item])
-#
-#     return table_string
 
-
-
-# sql_create_twitter_table = create_columns(variables.table, variables.metaDict)
-# print(sql_create_twitter_table)
-
-# sql_create_twitter_table = '''CREATE TABLE IF NOT EXISTS twitter (
-#                               id integer PRIMARY KEY,
-#                               user text,
-#                               screen_name text,
-#                               text text);
-#                            '''
-# print(sql_create_twitter_table)
 
 my_db = "sharkweek.db"
 conn = create_connection(my_db)
+drop_table(conn, variables.table)
 create_table(conn, variables.table, variables.metaDict)
 alter_table(conn, variables.table, variables.metaDict)
 close_connection(conn)
