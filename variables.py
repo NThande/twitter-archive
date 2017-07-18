@@ -20,8 +20,6 @@ col_dict = OrderedDict([('id','integer PRIMARY KEY'), ('text','text'), ('retweet
 
 # Print contents of each for testing.
 # print(metaList)
-for item in col_dict:
-    print(item, col_dict[item])
-
-
+# for item in col_dict:
+#     print(item, col_dict[item])
 

@@ -112,7 +112,9 @@ def populate_database(conn, table_name, col_dict, tweet_response):
                 tweet_data.append(tweet[entry])
             else:
                  tweet_data.append('')
-        print(tweet_data)
+
+    # Prints tweet data as it populates the table.
+        # print(tweet_data)
 
         # Add metadata to db
         try:
