@@ -1,3 +1,4 @@
+# variables.py
 # File containing necessary variables for twitter script.
 
 from collections import OrderedDict

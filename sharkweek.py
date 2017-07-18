@@ -1,3 +1,7 @@
+# sharkweek.py
+# Retrieves tweets from twitter and adds their metadata to the a db table, using variables .py to connect and
+# choose metadata.
+
 import variables
 import twitterSQLite
 

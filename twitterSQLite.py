@@ -1,3 +1,7 @@
+# twitterSQLite.py
+# Function library to interface SQLite with the TwitterAPI, using the Python-TwitterAPI wrapper.
+# Twitter API: https://github.com/geduldig/TwitterAPI
+
 from sqlite3 import Error
 from sqlite3 import connect
 from TwitterAPI import TwitterAPI

@@ -1,3 +1,5 @@
+# Previous experimental versions of main files.
+
 import variables
 col_string = "?"
 for i in range(10):
