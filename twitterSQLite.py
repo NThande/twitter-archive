@@ -33,11 +33,10 @@ def create_cursor(conn):
         print(e)
     return None
 
-# Creates table with name table_name and columns in col_dict in database connected by conn. col_dict must contain
-# col_name: col_type format.
+# Creates table with name table_name and columns in col_dict in database connected by conn.
 def create_table(conn, table_name, col_dict):
 
-    # Iterate through metaDict to construct query
+    # Create query string by iterating through col_dict
     table_string = "CREATE TABLE IF NOT EXISTS {} (".format(table_name)
     for item in col_dict:
         if (item != list(col_dict.keys())[-1]):
@@ -45,7 +44,7 @@ def create_table(conn, table_name, col_dict):
         else:
             table_string += "{} {});".format(item, col_dict[item])
 
-    # Execute table creation
+    # Create table in db
     try:
         c = create_cursor(conn)
         c.execute(table_string)
