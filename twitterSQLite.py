@@ -82,9 +82,9 @@ def get_tweets(hash, tweet_count):
     r = api.request('search/tweets', {'q': hash, 'count': tweet_count})
     return r
 
-# Updates table table_name in db connected by conn with tweet info from TwitterAPI response tweet_response. col_dict
+# Populates table table_name in db connected by conn with tweet info from TwitterAPI response tweet_response. col_dict
 # determines which columns of metadata are added to the db.
-def update_database(tweet_response, col_dict, conn, table_name):
+def populate_database(conn, table_name, col_dict, tweet_response):
 
     col_list = list(col_dict.keys())
     cursor = create_cursor(conn)

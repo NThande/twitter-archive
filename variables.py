@@ -6,23 +6,21 @@ from collections import OrderedDict
 db_file = "sharkweek.db"
 
 # Name of table to store tweets in.
-table = "twitter"
+table_name = "twitter"
+
 # Hashtag/keywords in each tweet.
 hashtag = "#sharkweek"
 
 # Number of tweets for each search.
 tweet_count = 100;
 
-metaDict = OrderedDict([('id','integer PRIMARY KEY'), ('text','text'), ('retweeted','numeric')])
-metaList = list(metaDict.keys())
+# Dictionary of column names from Twitter response and data type. Primary key is assigned here.
+col_dict = OrderedDict([('id','integer PRIMARY KEY'), ('text','text'), ('retweeted','numeric')])
 
 # Print contents of each for testing.
-print(metaList)
-for item in metaDict:
-    print(item, metaDict[item])
-
-# Number of columns in table.
-col_count = len(metaList)
+# print(metaList)
+for item in col_dict:
+    print(item, col_dict[item])
 
 
 
