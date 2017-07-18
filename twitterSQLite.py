@@ -73,7 +73,7 @@ def alter_table(conn, table_name, col_dict):
         print(e)
 
 # Takes in oAuth keys from config.json and returns tweet_count tweets containing hash as an API response.
-def get_tweets(hash, tweet_count):
+def get_tweets(hashtag, tweet_count):
 
     # Retrieve keys from config file
     with open('config.json') as json_data_file:
@@ -83,7 +83,7 @@ def get_tweets(hash, tweet_count):
 
     # Get tweets from Twitter
     api = TwitterAPI(key, secret, auth_type='oAuth2')
-    r = api.request('search/tweets', {'q': hash, 'count': tweet_count})
+    r = api.request('search/tweets', {'q': hashtag, 'count': tweet_count})
     return r
 
 # Populates table table_name in db connected by conn with tweet info from TwitterAPI response tweet_response. col_dict

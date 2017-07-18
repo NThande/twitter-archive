@@ -1,4 +1,5 @@
 # Simple script to drop the current db table.
+
 import twitterSQLite
 import variables
 
