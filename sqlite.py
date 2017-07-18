@@ -1,5 +1,6 @@
 # sqlite.py
 # Connects to the db specified in variables.py and creates a table. Adds new columns, if needed.
+# Prints benign errors if table needs no changes.
 
 import variables
 import twitterSQLite
