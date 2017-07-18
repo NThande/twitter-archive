@@ -1,6 +1,6 @@
-from collections import OrderedDict
-
 # File containing necessary variables for twitter script.
+
+from collections import OrderedDict
 
 # DB to store tweets in.
 db_file = "sharkweek.db"

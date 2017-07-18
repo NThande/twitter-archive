@@ -26,5 +26,3 @@ gen
 *.json
 test
 *.xml
-workspace.py
-mssql.py
