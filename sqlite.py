@@ -57,7 +57,7 @@ def alter_table(conn, table_name, col_dict):
     except Error as e:
         print(e)
 
-my_db = "sharkweek.db"
+
 conn = create_connection(my_db)
 drop_table(conn, variables.table)
 create_table(conn, variables.table, variables.metaDict)
