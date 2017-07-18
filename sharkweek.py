@@ -47,24 +47,26 @@ def update_database(response, meta, cursor, table, count):
     if count <= 0:
         return None
     col_string = ""
-    if count < 1:
+    if count > 1:
         for i in range(count - 1):
             col_string+= "?,"
     col_string += "?"
 
-    tweet_data = []
+    # Extract metadata from tweets
     for tweet in response.get_iterator():
+        tweet_data = []
         for i in range(count):
             entry = meta[i]
             if entry in tweet:
                 tweet_data.append(tweet[entry])
             else:
                  tweet_data.append('')
-        print(tweet_data[1])
+        print(tweet_data)
+
         # Add metadata to db
         try:
             cursor.execute("INSERT into {} VALUES({})".format(table, col_string),
-                           [*tweet_data])
+                           tweet_data)
         except sqlite3.Error as e:
             print(e)
 
@@ -77,7 +79,7 @@ my_db = "sharkweek.db"
 conn = create_connection(my_db)
 c = create_cursor(conn)
 
-update_database(results, variables.metaList, c, variables.table, variables.col_count)
+# update_database(results, variables.metaList, c, variables.table, variables.col_count)
 # # Retrieve metadata for each tweet and add to db
 # for item in results.get_iterator():
 #     print(item['user']['screen_name'], item['text'], item['id'])
@@ -112,29 +114,29 @@ close_conn(conn)
 #c.execute("INSERT into twitter VALUES(?,?,?,?)", ['','','',r])
 
 # Dump tweets to .json file
-# r = results.json()
-# print(type(r))
-# print(type((r,)))
-# with open('tweets.json', 'w') as outfile:
-#       json.dump(r, outfile)
+r = results.json()
+print(type(r))
+print(type((r,)))
+with open('tweets.json', 'w') as outfile:
+      json.dump(r, outfile)
 
 # Print types and data entries to find fields for SQLite debugging
-# print(results.json())
-# print(r.keys())
-# rLay1 = r['statuses']
-# rMeta = r['search_metadata']
-# rLay2 = rLay1[-1]
-# rLay3 = rLay2['user']
-# rLay4 = rLay3['screen_name']
-# print("Layer 1 is type:", type(rLay1))
-# print("Layer 2 entries in Layer 1:", rLay1[0:-1])
-# print("Layer 2 is type:", type(rLay2))
-# print("Layer 3 entries in Layer 2:", rLay2.keys())
-# print("Layer 3 is type:", type(rLay3))
-# print("Layer 4 entries in Layer 3:", rLay3.keys())
-# print("Layer 4 is type: ", type(rLay4))
-# print("Layer 4 is the end layer")
-# print("Metadata is type:", type(rMeta))
-# print("Keys in Metadata:", rMeta.keys())
+print(results.json())
+print(r.keys())
+rLay1 = r['statuses']
+rMeta = r['search_metadata']
+rLay2 = rLay1[-1]
+rLay3 = rLay2['user']
+rLay4 = rLay3['screen_name']
+print("Layer 1 is type:", type(rLay1))
+print("Layer 2 entries in Layer 1:", rLay1[0:-1])
+print("Layer 2 is type:", type(rLay2))
+print("Layer 3 entries in Layer 2:", rLay2.keys())
+print("Layer 3 is type:", type(rLay3))
+print("Layer 4 entries in Layer 3:", rLay3.keys())
+print("Layer 4 is type: ", type(rLay4))
+print("Layer 4 is the end layer")
+print("Metadata is type:", type(rMeta))
+print("Keys in Metadata:", rMeta.keys())
 
 
