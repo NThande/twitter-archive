@@ -36,8 +36,6 @@ def create_table(conn, table_name, col_dict):
         c.execute(table_string)
     except Error as e:
         print(e)
-    # finally:
-    #     close_connection(conn)
 
 # Deletes table with table_name from database connected by conn.
 def drop_table(conn, table_name):
@@ -46,8 +44,6 @@ def drop_table(conn, table_name):
         c.execute("DROP TABLE {}".format(table_name))
     except Error as e:
         print(e)
-    # finally:
-    #     close_connection(conn)
 
 # Adds columns from col_dict to table with table_name in database connected by conn.
 def alter_table(conn, table_name, col_dict):
@@ -60,10 +56,6 @@ def alter_table(conn, table_name, col_dict):
                 print(e)
     except Error as e:
         print(e)
-    # finally:
-    #     close_connection(conn)
-
-
 
 my_db = "sharkweek.db"
 conn = create_connection(my_db)

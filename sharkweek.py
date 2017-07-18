@@ -80,20 +80,6 @@ conn = create_connection(my_db)
 c = create_cursor(conn)
 
 update_database(results, variables.metaList, c, variables.table, variables.col_count)
-# # Retrieve metadata for each tweet and add to db
-# for item in results.get_iterator():
-#     print(item['user']['screen_name'], item['text'], item['id'])
-#     id = item['id']
-#     user = item['user']['name']
-#     screen_name = item['user']['screen_name']
-#     text = item['text']
-#
-#     # Add metadata to db
-#     try:
-#         c.execute("INSERT into twitter VALUES(?,?,?,?)",
-#                   ([id, user, screen_name, text]))
-#     except sqlite3.Error as e:
-#         print(e)
 
 # Save the changes
 close_conn(conn)
