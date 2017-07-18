@@ -26,6 +26,7 @@ gen
 *.json
 test
 *.xml
+*.pyc
 
 # Sensitive files
 mssql.py
