@@ -13,7 +13,7 @@ table_name = "twitter"
 hashtag = "#sharkweek"
 
 # Number of tweets for each search.
-tweet_count = 100;
+tweet_count = 10;
 
 # Dictionary of column names from Twitter response and data type. Primary key is assigned here.
 col_dict = OrderedDict([('id','integer PRIMARY KEY'),

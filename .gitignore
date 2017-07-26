@@ -31,6 +31,8 @@ test
 # Sensitive files
 mssql.py
 workspace.py
+sample.*
+test*.*
 
 # Non-API files
 droptable.py
