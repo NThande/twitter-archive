@@ -28,11 +28,11 @@ test
 *.xml
 *.pyc
 
-# Sensitive files
+# Non-API files
 mssql.py
 workspace.py
 sample.*
 test*.*
-
-# Non-API files
+twitterMSSQL.py
 droptable.py
+basic_insert.sql
