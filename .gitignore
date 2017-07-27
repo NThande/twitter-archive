@@ -12,8 +12,6 @@ Session.vim
 *~
 # auto-generated tag files
 tags
-### Example user template template
-### Example user template
 
 # IntelliJ project files
 .idea
@@ -26,13 +24,12 @@ gen
 *.json
 test
 *.xml
-*.pyc
+*.sql
 
 # Non-API files
 mssql.py
 workspace.py
-sample.*
-test*.*
-twitterMSSQL.py
+*sample*
+*test*
 droptable.py
-basic_insert.sql
+
