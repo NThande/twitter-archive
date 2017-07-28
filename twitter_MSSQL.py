@@ -2,8 +2,6 @@
 # Function library to interface SQLite with the TwitterAPI, using the Python-TwitterAPI wrapper.
 # Twitter API: https://github.com/geduldig/TwitterAPI
 
-from sqlite3 import Error
-from sqlite3 import connect
 from TwitterAPI import TwitterAPI
 import json
 import pyodbc
@@ -11,9 +9,9 @@ import pyodbc
 # Connects to an SQLite DB file and returns connected variable
 def create_connection(db_file):
     try:
-        conn = connect(db_file)
+        conn = pyodbc.connect(db_file)
         return conn
-    except Error as e:
+    except Exception as e:
         print(e)
     return None
 
@@ -22,7 +20,7 @@ def close_connection(conn):
     try:
         conn.commit()
         conn.close()
-    except Error as e:
+    except Exception as e:
         print(e)
 
 # Creates cursor object from connection object.
@@ -30,7 +28,7 @@ def create_cursor(conn):
     try:
         cur = conn.cursor()
         return cur;
-    except Error as e:
+    except Exception as e:
         print(e)
     return None
 
@@ -38,7 +36,7 @@ def create_cursor(conn):
 def create_table(cur, table_name, col_dict):
 
     # Create query string by iterating through col_dict
-    table_string = "CREATE TABLE IF NOT EXISTS {} (".format(table_name)
+    table_string = "CREATE TABLE {} (".format(table_name)
     for item in col_dict:
         if (item != list(col_dict.keys())[-1]):
             table_string += "{} {}, ".format(item, col_dict[item])
@@ -48,27 +46,29 @@ def create_table(cur, table_name, col_dict):
     # Create table in db
     try:
         cur.execute(table_string)
-    except Error as e:
+    except Exception as e:
         print(e)
 
-# Deletes table with table_name from database with cursor cur.
+# Deletes table with table_name from database with cursor cur. USE WITH CAUTION!
 def drop_table(cur, table_name):
     try:
         cur.execute("DROP TABLE {}".format(table_name))
-    except Error as e:
+    except Exception as e:
         print(e)
 
 # Adds columns from col_dict to table with table_name in database with cursor cur.
 def alter_table(cur, table_name, col_dict):
         for item in col_dict:
             try:
-                cur.execute("ALTER TABLE {} ADD COLUMN {} {}".format(table_name, item, col_dict[item]))
-            except Error as e:
+                cur.execute("ALTER TABLE {} ADD {} {}".format(table_name, item, col_dict[item]))
+            except Exception as e:
                 print(e)
 
-# Reads the top 100 tweets from the database table table_name.
-def read_table(cur, table_name):
-
+# Reads the top row_count rows in table table_name with columns in col_dict from database with cursor cur.
+def read_table(cur, table_name, row_count):
+    rows = cur.execute("SELECT TOP ({}) * FROM {}".format(row_count, table_name)).fetchall()
+    for entry in rows:
+        print(entry)
 
 # Takes in oAuth keys from config.json and returns tweet_count tweets containing hash as an API response.
 def get_tweets(hashtag, tweet_count):
@@ -117,5 +117,5 @@ def populate_database(cur, table_name, col_dict, tweet_response):
         try:
             cur.execute("INSERT into {} VALUES({})".format(table_name, col_string),
                            tweet_data)
-        except Error as e:
+        except Exception as e:
             print(e)
