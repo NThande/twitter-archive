@@ -1,4 +1,4 @@
-# twitterSQLite.py
+# twitter_MSSQL.py
 # Function library to interface SQLite with the TwitterAPI, using the Python-TwitterAPI wrapper.
 # Twitter API: https://github.com/geduldig/TwitterAPI
 
@@ -6,10 +6,40 @@ from TwitterAPI import TwitterAPI
 import json
 import pyodbc
 
-# Connects to an SQLite DB file and returns connected variable
+# Connects to a MSSQL Database using SQL credentials from db_file.json and returns the created connection object.
 def create_connection(db_file):
+
+    # Retrieve login from db_file.json
+    with open(db_file) as json_data_file:
+        creds = json.load(json_data_file)
+
     try:
-        conn = pyodbc.connect(db_file)
+        conn = pyodbc.connect(driver = creds["db_driver"],
+                              server = creds["db_server"],
+                              database = creds["db_source"],
+                              port = creds["db_port"],
+                              uid = creds["db_user"],
+                              pwd = creds["db_pass"]
+                              )
+        return conn
+    except Exception as e:
+        print(e)
+    return None
+
+# Connects to a MSSQL Database using Windows credentials from db_file.json and returns the created connection object.
+def create_trusted_connection(db_file):
+
+    # Retrieve login from db_file.json
+    with open(db_file) as json_data_file:
+        creds = json.load(json_data_file)
+
+    try:
+        conn = pyodbc.connect(driver = creds["db_driver"],
+                              server = creds["db_server"],
+                              database = creds["db_source"],
+                              port = creds["db_port"],
+                              trusted_connection = 'yes'
+                              )
         return conn
     except Exception as e:
         print(e)
@@ -32,7 +62,8 @@ def create_cursor(conn):
         print(e)
     return None
 
-# Creates table with name table_name and columns in col_dict in database with cursor cur.
+# Creates table with name table_name and columns in col_dict in database with cursor cur. Returns an error if table
+#   already exissts.
 def create_table(cur, table_name, col_dict):
 
     # Create query string by iterating through col_dict
@@ -49,7 +80,8 @@ def create_table(cur, table_name, col_dict):
     except Exception as e:
         print(e)
 
-# Deletes table with table_name from database with cursor cur. USE WITH CAUTION!
+# Deletes table with table_name from database with cursor cur. Returns an error if table does not exist.
+#   USE WITH CAUTION!
 def drop_table(cur, table_name):
     try:
         cur.execute("DROP TABLE {}".format(table_name))
@@ -65,16 +97,16 @@ def alter_table(cur, table_name, col_dict):
                 print(e)
 
 # Reads the top row_count rows in table table_name with columns in col_dict from database with cursor cur.
-def read_table(cur, table_name, row_count):
+def print_table(cur, table_name, row_count):
     rows = cur.execute("SELECT TOP ({}) * FROM {}".format(row_count, table_name)).fetchall()
     for entry in rows:
         print(entry)
 
 # Takes in oAuth keys from config.json and returns tweet_count tweets containing hash as an API response.
-def get_tweets(hashtag, tweet_count):
+def get_tweets(hashtag, tweet_count, config_file):
 
     # Retrieve keys from config file
-    with open('config.json') as json_data_file:
+    with open(config_file) as json_data_file:
         creds = json.load(json_data_file)
     key = creds['Consumer Key']
     secret = creds['Consumer Secret']
@@ -107,11 +139,13 @@ def populate_database(cur, table_name, col_dict, tweet_response):
             entry = col_list[i]
             if entry in tweet:
                 tweet_data.append(tweet[entry])
+            elif entry in tweet['user']:
+                tweet_data.append((tweet['user'])[entry])
             else:
-                 tweet_data.append('')
+                tweet_data.append('')
 
     # Prints tweet data as it populates the table.
-        # print(tweet_data)
+        print(tweet_data)
 
         # Add metadata to db
         try:
