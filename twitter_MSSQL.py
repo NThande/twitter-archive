@@ -8,18 +8,16 @@ import pyodbc
 
 # Connects to a MSSQL Database using SQL credentials from db_file.json and returns the created connection object.
 def create_connection(db_file):
-
-    # Retrieve login from db_file.json
     with open(db_file) as json_data_file:
         creds = json.load(json_data_file)
 
     try:
-        conn = pyodbc.connect(driver = creds["db_driver"],
-                              server = creds["db_server"],
-                              database = creds["db_source"],
-                              port = creds["db_port"],
-                              uid = creds["db_user"],
-                              pwd = creds["db_pass"]
+        conn = pyodbc.connect(driver = creds["Driver"],
+                              server = creds["Server"],
+                              database = creds["Source"],
+                              port = creds["Port"],
+                              uid = creds["User"],
+                              pwd = creds["Password"]
                               )
         return conn
     except Exception as e:
@@ -28,16 +26,14 @@ def create_connection(db_file):
 
 # Connects to a MSSQL Database using Windows credentials from db_file.json and returns the created connection object.
 def create_trusted_connection(db_file):
-
-    # Retrieve login from db_file.json
     with open(db_file) as json_data_file:
         creds = json.load(json_data_file)
 
     try:
-        conn = pyodbc.connect(driver = creds["db_driver"],
-                              server = creds["db_server"],
-                              database = creds["db_source"],
-                              port = creds["db_port"],
+        conn = pyodbc.connect(driver = creds["Driver"],
+                              server = creds["Server"],
+                              database = creds["Source"],
+                              port = creds["Port"],
                               trusted_connection = 'yes'
                               )
         return conn
@@ -65,8 +61,6 @@ def create_cursor(conn):
 # Creates table with name table_name and columns in col_dict in database with cursor cur. Returns an error if table
 #   already exissts.
 def create_table(cur, table_name, col_dict):
-
-    # Create query string by iterating through col_dict
     table_string = "CREATE TABLE {} (".format(table_name)
     for item in col_dict:
         if (item != list(col_dict.keys())[-1]):
@@ -90,11 +84,11 @@ def drop_table(cur, table_name):
 
 # Adds columns from col_dict to table with table_name in database with cursor cur.
 def alter_table(cur, table_name, col_dict):
-        for item in col_dict:
-            try:
-                cur.execute("ALTER TABLE {} ADD {} {}".format(table_name, item, col_dict[item]))
-            except Exception as e:
-                print(e)
+    for item in col_dict:
+        try:
+            cur.execute("ALTER TABLE {} ADD {} {}".format(table_name, item, col_dict[item]))
+        except Exception as e:
+            print(e)
 
 # Reads the top row_count rows in table table_name with columns in col_dict from database with cursor cur.
 def print_table(cur, table_name, row_count):
@@ -104,8 +98,6 @@ def print_table(cur, table_name, row_count):
 
 # Takes in oAuth keys from config.json and returns tweet_count tweets containing hash as an API response.
 def get_tweets(hashtag, tweet_count, config_file):
-
-    # Retrieve keys from config file
     with open(config_file) as json_data_file:
         creds = json.load(json_data_file)
     key = creds['Consumer Key']
@@ -119,7 +111,6 @@ def get_tweets(hashtag, tweet_count, config_file):
 # Populates table table_name in db with cursor cur and with tweet info from TwitterAPI response tweet_response. col_dict
 # determines which columns of metadata are added to the db.
 def populate_database(cur, table_name, col_dict, tweet_response):
-
     col_list = list(col_dict.keys())
     count = len(col_list)
 
