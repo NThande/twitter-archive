@@ -22,6 +22,6 @@ file in the format:
   "Driver" : xxx"
 }
  
-The names of these .json's is not hard-coded. Specify them in the param.py file.
+The names of these .json's is not hard-coded. Specify them in the variables.py file.
 Python-Twitter API Wrapper:
 https://github.com/geduldig/TwitterAPI

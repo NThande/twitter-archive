@@ -22,15 +22,11 @@ gen
 # Temporary files
 *.db
 *.json
-test
 *.xml
 *.sql
 *.pyc
 
 # Non-API files
-mssql.py
-workspace.py
 *sample*
 *test*
-droptable.py
-
+Dev/*
