@@ -25,6 +25,7 @@ gen
 test
 *.xml
 *.sql
+*.pyc
 
 # Non-API files
 mssql.py
