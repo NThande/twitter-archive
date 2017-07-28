@@ -6,6 +6,7 @@ from sqlite3 import Error
 from sqlite3 import connect
 from TwitterAPI import TwitterAPI
 import json
+import pyodbc
 
 # Connects to an SQLite DB file and returns connected variable
 def create_connection(db_file):
@@ -27,14 +28,14 @@ def close_connection(conn):
 # Creates cursor object from connection object.
 def create_cursor(conn):
     try:
-        c = conn.cursor()
-        return c;
+        cur = conn.cursor()
+        return cur;
     except Error as e:
         print(e)
     return None
 
-# Creates table with name table_name and columns in col_dict in database connected by conn.
-def create_table(conn, table_name, col_dict):
+# Creates table with name table_name and columns in col_dict in database with cursor cur.
+def create_table(cur, table_name, col_dict):
 
     # Create query string by iterating through col_dict
     table_string = "CREATE TABLE IF NOT EXISTS {} (".format(table_name)
@@ -46,30 +47,28 @@ def create_table(conn, table_name, col_dict):
 
     # Create table in db
     try:
-        c = create_cursor(conn)
-        c.execute(table_string)
+        cur.execute(table_string)
     except Error as e:
         print(e)
 
-# Deletes table with table_name from database connected by conn.
-def drop_table(conn, table_name):
+# Deletes table with table_name from database with cursor cur.
+def drop_table(cur, table_name):
     try:
-        c = create_cursor(conn)
-        c.execute("DROP TABLE {}".format(table_name))
+        cur.execute("DROP TABLE {}".format(table_name))
     except Error as e:
         print(e)
 
-# Adds columns from col_dict to table with table_name in database connected by conn.
-def alter_table(conn, table_name, col_dict):
-    try:
-        c = create_cursor(conn)
+# Adds columns from col_dict to table with table_name in database with cursor cur.
+def alter_table(cur, table_name, col_dict):
         for item in col_dict:
             try:
-                c.execute("ALTER TABLE {} ADD COLUMN {} {}".format(table_name, item, col_dict[item]))
+                cur.execute("ALTER TABLE {} ADD COLUMN {} {}".format(table_name, item, col_dict[item]))
             except Error as e:
                 print(e)
-    except Error as e:
-        print(e)
+
+# Reads the top 100 tweets from the database table table_name.
+def read_table(cur, table_name):
+
 
 # Takes in oAuth keys from config.json and returns tweet_count tweets containing hash as an API response.
 def get_tweets(hashtag, tweet_count):
@@ -85,12 +84,11 @@ def get_tweets(hashtag, tweet_count):
     r = api.request('search/tweets', {'q': hashtag, 'count': tweet_count})
     return r
 
-# Populates table table_name in db connected by conn with tweet info from TwitterAPI response tweet_response. col_dict
+# Populates table table_name in db with cursor cur and with tweet info from TwitterAPI response tweet_response. col_dict
 # determines which columns of metadata are added to the db.
-def populate_database(conn, table_name, col_dict, tweet_response):
+def populate_database(cur, table_name, col_dict, tweet_response):
 
     col_list = list(col_dict.keys())
-    cursor = create_cursor(conn)
     count = len(col_list)
 
     # Create the "?" placeholders for each column
@@ -117,7 +115,7 @@ def populate_database(conn, table_name, col_dict, tweet_response):
 
         # Add metadata to db
         try:
-            cursor.execute("INSERT into {} VALUES({})".format(table_name, col_string),
+            cur.execute("INSERT into {} VALUES({})".format(table_name, col_string),
                            tweet_data)
         except Error as e:
             print(e)
