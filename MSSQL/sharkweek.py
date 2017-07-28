@@ -10,5 +10,5 @@ results = twitter_MSSQL.get_tweets(variables.hashtag, variables.tweet_count, var
 conn = twitter_MSSQL.create_trusted_connection(variables.db_file)
 cur = twitter_MSSQL.create_cursor(conn)
 twitter_MSSQL.populate_database(cur, variables.table_name, variables.col_dict, results)
-twitter_MSSQL.print_table(cur, variables.table_name, 100)
+# twitter_MSSQL.print_table(cur, variables.table_name, 100)
 twitter_MSSQL.close_connection(conn)
