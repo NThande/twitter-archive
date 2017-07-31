@@ -1,5 +1,5 @@
 Twitter-archive provides a library to interface Twitter responses to SQLite and MSSQL, 
-and a basic method to retrieve tweets from Twitter and store them in a local SQLite database.
+and a basic method to retrieve tweets from Twitter and store them in a database.
 
 Language: Python 3.6.1
 
