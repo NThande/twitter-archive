@@ -72,8 +72,8 @@ def print_table(cur, table_name, row_count):
         print(entry)
 
 # Takes in oAuth keys from config.json and returns tweet_count tweets containing hash as an API response.
-def get_tweets(hashtag, tweet_count):
-    with open('config.json') as json_data_file:
+def get_tweets(hashtag, tweet_count, config_file):
+    with open(config_file) as json_data_file:
         creds = json.load(json_data_file)
     key = creds['Consumer Key']
     secret = creds['Consumer Secret']

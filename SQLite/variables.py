@@ -3,6 +3,9 @@
 
 from collections import OrderedDict
 
+# Name of file with twitter credentials.
+config_file = 'config.json'
+
 # DB to store tweets in.
 db_file = "sharkweek.db"
 

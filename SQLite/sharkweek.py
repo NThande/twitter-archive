@@ -5,7 +5,7 @@
 from SQLite import variables
 from SQLite import twitter_SQLite
 
-results = twitter_SQLite.get_tweets(variables.hashtag, variables.tweet_count)
+results = twitter_SQLite.get_tweets(variables.hashtag, variables.tweet_count, variables.config_file)
 conn = twitter_SQLite.create_connection(variables.db_file)
 cur = twitter_SQLite.create_cursor(conn)
 twitter_SQLite.populate_database(cur, variables.table_name, variables.col_dict, results)
