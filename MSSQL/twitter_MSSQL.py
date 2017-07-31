@@ -2,9 +2,9 @@
 # Function library to interface SQLite with the TwitterAPI, using the Python-TwitterAPI wrapper.
 # Twitter API: https://github.com/geduldig/TwitterAPI
 
+import pyodbc
 from TwitterAPI import TwitterAPI
 import json
-import pyodbc
 
 # Connects to a MSSQL Database using SQL credentials from db_file.json and returns the created connection object.
 def create_connection(db_file):
