@@ -30,7 +30,7 @@ col_dict = OrderedDict([('id','integer PRIMARY KEY'),
                         ('id_str','text')
                        ])
 
-# Print contents of each for testing.
+# Print contents of each variable for testing.
 # print(col_dict.keys())
 # for item in col_dict:
 #     print(item, col_dict[item])
