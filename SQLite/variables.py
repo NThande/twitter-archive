@@ -7,16 +7,16 @@ from collections import OrderedDict
 config_file = 'config.json'
 
 # DB to store tweets in.
-db_file = "scripps.db"
+db_file = "sharkweek.db"
 
 # Name of table to store tweets in.
-table_name = "July31st2017"
+table_name = "twitter"
 
 # Hashtag/keywords in each tweet.
 hashtag = "scripps"
 
 # Number of tweets for each search.
-tweet_count = 100;
+tweet_count = 10;
 
 # Dictionary of column names from Twitter response and data type. Primary key is assigned here.
 col_dict = OrderedDict([('id','integer PRIMARY KEY'),
