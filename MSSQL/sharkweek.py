@@ -3,7 +3,6 @@
 # Prints benign errors if it rereads the same tweet.
 
 from MSSQL import variables
-
 from MSSQL import twitter_MSSQL
 
 results = twitter_MSSQL.get_tweets(variables.hashtag, variables.tweet_count, variables.config_file)
