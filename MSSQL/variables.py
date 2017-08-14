@@ -19,6 +19,8 @@ hashtag = "#sharkweek"
 tweet_count = 10;
 
 # Dictionary of column names from Twitter response and data type. Primary key is assigned here.
+#   Column names must match fields in the Twitter API. A reference can be found here:
+#   https://dev.twitter.com/overview/api/tweets
 col_dict = OrderedDict([('id_str','NVARCHAR(50) NOT NULL PRIMARY KEY'),
                         ('text','NVARCHAR(250) NOT NULL'),
                         ('name', 'NVARCHAR(50) NOT NULL'),

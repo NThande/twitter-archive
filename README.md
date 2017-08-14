@@ -1,6 +1,7 @@
 # Twitter-Archive
 #### Language: Python 3.6.1
 
+
 Twitter-Archive provides a function library to interface Twitter responses to SQLite and MSSQL, 
 and a basic method to retrieve tweets from Twitter and store them in a database. Supports searching
 Twitter using one term (i.e. #sharkweek) and setting the number of tweets to retrieve. Note that Twitter
@@ -17,6 +18,7 @@ Twitter API Keys: (https://apps.twitter.com/)
 1. Login into your Twitter Account
 2. Create a new App or access an existing one
 3. Retrieve keys from "Keys and Access Tokens" Section of App
+
 
 ### Setup
 1. Clone the repository using the green "Clone or Download" button in the top right, or use the following:
@@ -87,3 +89,4 @@ This version of Twitter-Archive must be run manually. There are no plans for aut
 
 ### License
 Licensed under the Unlicense. See LICENSE for more details.
+
