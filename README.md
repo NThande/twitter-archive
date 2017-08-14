@@ -9,11 +9,11 @@ will rate-limit requests for an excessive amount of tweets.
 To get started, download the repository using the Green "Clone or Download" button in the top right.
 
 ### Requirements
-Python-Twitter API Wrapper: https://github.com/geduldig/TwitterAPI
+Python-Twitter API Wrapper: (https://github.com/geduldig/TwitterAPI)
 ```
 pip install TwitterAPI
 ```
-Twitter API Keys: https://apps.twitter.com/
+Twitter API Keys: (https://apps.twitter.com/)
 1. Login into your Twitter Account
 2. Create a new App or access an existing one
 3. Retrieve keys from "Keys and Access Tokens" Section of App
@@ -66,15 +66,24 @@ col_dict = OrderedDict([('id_str','NVARCHAR(50) NOT NULL PRIMARY KEY'),
                        ])
 ```
 
+### Testing
+init_MSSQL.py/init_SQLite.py: Tests table creation/manipulation tools.
 
-Users will also need to have their MSSQL database information in a .json 
-file (default name db_login.json) in the format:
+sharkweek.py: Tests the end-to-end process of accessing and storage of tweets.
 
+Run each test by running the corresponding script. Uncomment lines of code to test each feature.
 
+For a successful test, this message should appear: 
+```
+Process finished with exit code 0
+```
+SQL error messages may also appear in the command window. These are benign and can be ignored.
 
+### Notes
+The Twitter API returns information as fields of a larger data object. These fields should be used to determine
+the column names for a table for storing tweets. A reference can be found here: https://dev.twitter.com/overview/api/tweets
 
-Samples of these files are provided in each folder. 
-Specify search and column parameters in the variables.py file.
+This version of Twitter-Archive must be run manually. There are no plans for automated scheduling at this time.
 
 ### License
 Licensed under the Unlicense. See LICENSE for more details.
