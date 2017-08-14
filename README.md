@@ -1,11 +1,10 @@
-#Twitter Archive
-#####Language: Python 3.6.1
+# Twitter-Archive
+#### Language: Python 3.6.1
 
-Twitter-archive provides a library to interface Twitter responses to SQLite and MSSQL, 
+Provides a library to interface Twitter responses to SQLite and MSSQL, 
 and a basic method to retrieve tweets from Twitter and store them in a database.
+Users will need to have their own Twitter account to generate a .json 
 
-
-Users will need to create their own Twitter App to generate a .json 
 file (default name config.json) containing a consumer api key and 
 consumer secret key in the format:
 
