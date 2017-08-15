@@ -88,5 +88,5 @@ the column names for a table for storing tweets. A reference can be found here: 
 This version of Twitter-Archive must be run manually. There are no plans for automated scheduling at this time.
 
 ### License
-Licensed under the Unlicense. See LICENSE for more details.
+Licensed under MIT. See LICENSE for more details.
 
